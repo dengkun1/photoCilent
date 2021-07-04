@@ -17,6 +17,9 @@ const routes = [
         path: "/photo",
         name: "Photo",
         component: Photo,
+         meta: {
+            isAuth: true
+        },
     },
     // {
     //     path: "/detail",
@@ -32,9 +35,6 @@ const routes = [
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
         props: true,
-        meta: {
-            isAuth: true
-        },
         component: () =>
             import(/* webpackChunkName: "details" */ "../views/Detail.vue"),
     },
@@ -48,7 +48,7 @@ const router = new VueRouter({
 //    路由守卫
 router.beforeEach((to, from, next) => {
     if (to.meta.isAuth) {
-        const token = store.store.token
+        const token = store.state.token
         if (token) {
             next()
         } else {
